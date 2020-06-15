@@ -24,20 +24,28 @@ router.get("/api/notes", function (req, res) {
 
 //POST needs to receive new note to save on request body, add to db.json and return new note to client. Give note ID number.
 router.post("/api/notes", function (req, res) {
-  // This is like const todos = JSON.parse(localStorage.getItem("todos"));
+  // get notes from db.json
   const notes = JSON.parse(fs.readFileSync(db, "utf8"));
 
   //create notes on request body
   const newNote = req.body;
-  //add id number
+  //increment to add unique id number to each note
+  if (notes.length === 0) {
+    newNote.id = notes.length + 1;
+  } else {
+    newNote.id = notes[notes.length - 1].id + 1;
+  }
+
+  //push new note to notes array
   notes.push(newNote);
 
   //write to db.json
-  // This is like localStorage.setItem("todos", todos); where todos is the array of todos
-  // fs.writeFile(db, ,)
+  fs.writeFile(db, JSON.stringify(notes), (err) => {
+    if (err) throw err;
+    console.log("New note has been created!");
+  });
 
   //show new note to client upon save
-
   res.json(notes);
 });
 
