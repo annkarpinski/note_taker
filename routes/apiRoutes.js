@@ -4,16 +4,6 @@ const fs = require("fs");
 
 const db = "./db/db.json";
 
-// application data using stubbing
-// const notes = [
-//   {
-//     title: "Test Note",
-//     text: "I am a note!",
-//   },
-// ];
-
-// api routes...send and receive data
-
 //GET needs to read db.json and return all saved notes as JSON
 router.get("/api/notes", function (req, res) {
   //read db.json
@@ -46,13 +36,26 @@ router.post("/api/notes", function (req, res) {
   });
 
   //show new note to client upon save
-  res.json(notes);
+  res.json(newNote);
 });
 
 // DELETE should receive note id query parameter, delete that ID, and rewrite notes to db.json
 router.delete("/api/notes/:id", function (req, res) {
-  //re-write to bd.json
-  // fs.writeFile(db, ,)
+  //Delete note based on ID number chosen
+  const chosenNote = req.params.id;
+  const notes = fs.readFileSync(db, "utf8");
+  //iterate through notes array to find ID number chosen, then remove that element using the splice method
+  for (let i = 0; i < notes.length; i++) {
+    if (chosenNote === notes[i].id) {
+      notes.splice(notes.indexOf(notes[i]), 1);
+    }
+  }
+
+  //re-write notes to bd.json after removing chosen note from array
+  fs.writeFile(db, JSON.stringify(notes), (err) => {
+    if (err) throw err;
+    console.log("Note has been deleted!");
+  });
   res.json(notes);
 });
 
