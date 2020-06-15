@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
+const uniqid = require("uniqid");
 
 const db = "./db/db.json";
 
@@ -16,15 +17,14 @@ router.get("/api/notes", function (req, res) {
 router.post("/api/notes", function (req, res) {
   // get notes from db.json
   const notes = JSON.parse(fs.readFileSync(db, "utf8"));
+  //console.log(typeof notes);
 
   //create notes on request body
   const newNote = req.body;
-  //increment to add unique id number to each note
-  if (notes.length === 0) {
-    newNote.id = notes.length + 1;
-  } else {
-    newNote.id = notes[notes.length - 1].id + 1;
-  }
+
+  //add unique id number to each note
+  newNote.id = uniqid();
+  //console.log(newNote);
 
   //push new note to notes array
   notes.push(newNote);
@@ -43,9 +43,11 @@ router.post("/api/notes", function (req, res) {
 router.delete("/api/notes/:id", function (req, res) {
   //Delete note based on ID number chosen
   const chosenNote = req.params.id;
-  const notes = fs.readFileSync(db, "utf8");
+  //const chosenNote = parseInt(req.params.id);
+  const notes = JSON.parse(fs.readFileSync(db, "utf8"));
   //iterate through notes array to find ID number chosen, then remove that element using the splice method
   for (let i = 0; i < notes.length; i++) {
+    // console.log(typeof chosenNote, typeof notes[i].id);
     if (chosenNote === notes[i].id) {
       notes.splice(notes.indexOf(notes[i]), 1);
     }
