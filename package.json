@@ -1,5 +1,5 @@
 {
-  "name": "note-taker",
+  "name": "note_taker",
   "version": "1.0.0",
   "description": "## Description",
   "main": "server.js",
@@ -16,13 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/annkarpinski/DU_Homework11_NoteTaker.git"
+    "url": "git+https://github.com/annkarpinski/note_taker.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/annkarpinski/DU_Homework11_NoteTaker/issues"
+    "url": "https://github.com/annkarpinski/note_taker/issues"
   },
-  "homepage": "https://github.com/annkarpinski/DU_Homework11_NoteTaker#readme",
+  "homepage": "https://github.com/annkarpinski/note_taker#readme",
   "devDependencies": {
     "nodemon": "^2.0.4"
   }
